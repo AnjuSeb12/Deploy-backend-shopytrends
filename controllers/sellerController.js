@@ -1,6 +1,8 @@
 import Seller from "../models/sellerModel.js"
 import bcrypt from "bcrypt"
 import { sellerToken } from "../utils/generateToken.js";
+import cookieparams from "../config/cookieConfig.js";
+
 const saltRound = 10;
 
 
@@ -27,7 +29,7 @@ const sellerRegisteration = async (req, res) => {
             })
         }
         const token = sellerToken(seller);
-        res.cookie("token", token);
+        res.cookie("token", token,cookieparams);
         const successMessage = seller.role === 'admin' ? "Admin Registration Successfully Completed!!" : "Seller Registration Successfully Completed!!";
         res.status(201).json({
             success: true,
@@ -68,7 +70,7 @@ const sellerLogin = async (req, res) => {
             });
         }
         const token = sellerToken(seller);
-        res.cookie("token", token);
+        res.cookie("token", token,cookieparams);
         res.status(201).json({
             success: true,
             message: "Loged in Successfully!",

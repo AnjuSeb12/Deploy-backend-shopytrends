@@ -1,6 +1,8 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt"
 import { generateToken } from "../utils/generateToken.js";
+import cookieparams from "../config/cookieConfig.js";
+
 const saltRound = 10;
 const userRegisteration = async (req, res) => {
 
@@ -27,7 +29,7 @@ const userRegisteration = async (req, res) => {
 
         const token = generateToken(user);
 
-        res.cookie("token", token)
+        res.cookie("token", token,cookieparams)
         res.status(201).json({
             success: true,
             message: "User Registeration Successfully Completed",
@@ -70,7 +72,7 @@ const userLogin = async (req, res) => {
             });
         }
         const token = generateToken(user);
-        res.cookie("token", token);
+        res.cookie("token", token,cookieparams);
         res.status(201).json({
             success: true,
             message: "Loged in Successfully!",
