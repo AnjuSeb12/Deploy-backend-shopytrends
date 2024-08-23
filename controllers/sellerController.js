@@ -1,7 +1,7 @@
 import Seller from "../models/sellerModel.js"
 import bcrypt from "bcrypt"
 import { sellerToken } from "../utils/generateToken.js";
-import cookieparams from "../config/cookieConfig.js";
+
 
 const saltRound = 10;
 
