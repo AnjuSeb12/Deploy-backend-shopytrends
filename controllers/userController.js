@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt"
 import { generateToken } from "../utils/generateToken.js";
-import cookieparams from "../config/cookieConfig.js";
+
 
 const saltRound = 10;
 const userRegisteration = async (req, res) => {
@@ -14,8 +14,8 @@ const userRegisteration = async (req, res) => {
             firstName,
             lastName,
             email,
-            role:'user',
-        
+            role: 'user',
+
             password: hashedPass
 
         });
@@ -28,15 +28,20 @@ const userRegisteration = async (req, res) => {
         }
 
         const token = generateToken(user);
+        const cookieParams = {
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true,
+        };
 
-        res.cookie("token", token,cookieparams)
+        res.cookie("token", token, cookieParams)
         res.status(201).json({
             success: true,
             message: "User Registeration Successfully Completed",
             user,
             token
         });
-        
+
 
 
     } catch (error) {
@@ -54,7 +59,7 @@ const userLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
-        
+
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -68,18 +73,24 @@ const userLogin = async (req, res) => {
             return res.status(401).json({
                 success: false,
                 message: 'Invalid credentials!',
-                isAuthenticated:false
+                isAuthenticated: false
             });
         }
         const token = generateToken(user);
-        res.cookie("token", token,cookieparams);
+        const cookieParams = {
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true,
+        };
+
+        res.cookie("token", token, cookieParams);
         res.status(201).json({
             success: true,
             message: "Loged in Successfully!",
             token,
             user,
-            isAuthenticated:true
-            
+            isAuthenticated: true
+
         });
 
 
