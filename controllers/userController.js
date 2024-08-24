@@ -30,8 +30,10 @@ const userRegisteration = async (req, res) => {
         const token = generateToken(user);
         const cookieParams = {
             httpOnly: true,
-            sameSite: 'None',
             secure: true,
+            sameSite: 'None',
+            path: '/',
+          
         };
 
         res.cookie("token", token, cookieParams)
